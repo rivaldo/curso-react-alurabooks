@@ -1,9 +1,15 @@
+import axios from 'axios'
 import { AbBotao, AbCampoTexto, AbModal } from 'ds-alurabooks'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import imagemPrincipal from './assets/login.png'
 import './ModalCadastroUsuario.css'
 
-const ModalCadastroUsuario = () => {
+interface PropsModalCadastroUsuario {
+    aberta: boolean;
+    aoFechar: () => void;
+}
+
+const ModalCadastroUsuario = ({aberta, aoFechar}: PropsModalCadastroUsuario) => {
     const [nome, setNome] = useState ('')
     const [email, setEmail] = useState ('')
     const [endereco, setEndereco] = useState ('')
@@ -11,17 +17,49 @@ const ModalCadastroUsuario = () => {
     const [cep, setCep] = useState ('')
     const [senha, setSenha] = useState ('')
     const [confirmaSenha, setConfirmaSenha] = useState ('')
+
+    const aoSubmeterFormulario = (evento: React.FormEvent<HTMLFormElement>) => {
+        evento.preventDefault();
+        const usuario = {
+            nome,
+            email,
+            senha, 
+            endereco,
+            cep,
+            complemento
+        }
+
+        axios.post('http://localhost:8000/public/login', usuario)
+        .then(() => {
+            alert('Usuário cadastrado com sucesso!');
+            setNome('');
+            setEmail('');
+            setEndereco('');
+            setComplemento('');
+            setCep('');
+            setSenha('');
+            setConfirmaSenha('');
+            aoFechar();
+        })
+        .catch(() => {
+            alert('Ops! Alguma coisa deu errado!')
+        })
+
+       
+    }
+
+
     return ( 
             <AbModal 
                 titulo='Cadastrar' 
-                aberta = { true }
-                aoFechar = { () => console.log('fecha ai')}>
+                aberta = { aberta }
+                aoFechar = { aoFechar}>
 
                 <div className='corpoModalCadastro'>
                     <figure>
                         <img src={imagemPrincipal} alt='Monitor com uma fechadura e uma pessoa com uma chave logo ao lado' />
                     </figure>
-                    <form>
+                    <form onSubmit={aoSubmeterFormulario}>
                         <AbCampoTexto 
                             value = {nome}
                             label = 'Nome'
@@ -39,7 +77,7 @@ const ModalCadastroUsuario = () => {
                         />
                         <AbCampoTexto 
                             value = {complemento}
-                            label = 'E-mail'
+                            label = 'Complemento'
                             onChange = {setComplemento}
                         />
                         <AbCampoTexto 
