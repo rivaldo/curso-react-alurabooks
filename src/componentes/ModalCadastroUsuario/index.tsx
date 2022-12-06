@@ -1,6 +1,6 @@
-import axios from 'axios'
 import { AbBotao, AbCampoTexto, AbModal } from 'ds-alurabooks'
 import React, { useState } from 'react'
+import http from '../../http'
 import imagemPrincipal from './assets/login.png'
 import './ModalCadastroUsuario.css'
 
@@ -29,7 +29,7 @@ const ModalCadastroUsuario = ({aberta, aoFechar}: PropsModalCadastroUsuario) => 
             complemento
         }
 
-        axios.post('http://localhost:8000/public/login', usuario)
+        http.post('/public/registrar', usuario)
         .then(() => {
             alert('Usuário cadastrado com sucesso!');
             setNome('');
@@ -42,6 +42,7 @@ const ModalCadastroUsuario = ({aberta, aoFechar}: PropsModalCadastroUsuario) => 
             aoFechar();
         })
         .catch(() => {
+            console.log(usuario)
             alert('Ops! Alguma coisa deu errado!')
         })
 
@@ -52,8 +53,8 @@ const ModalCadastroUsuario = ({aberta, aoFechar}: PropsModalCadastroUsuario) => 
     return ( 
             <AbModal 
                 titulo='Cadastrar' 
-                aberta = { aberta }
-                aoFechar = { aoFechar}>
+                aberta = {aberta}
+                aoFechar = {aoFechar}>
 
                 <div className='corpoModalCadastro'>
                     <figure>
@@ -89,11 +90,13 @@ const ModalCadastroUsuario = ({aberta, aoFechar}: PropsModalCadastroUsuario) => 
                             value = {senha}
                             label = 'Senha'
                             onChange = {setSenha}
+                            type = 'password'
                         />
                         <AbCampoTexto 
                             value = {confirmaSenha}
                             label = 'Confirmar senha'
                             onChange = {setConfirmaSenha}
+                            type = 'password'
                         />
 
                         <footer className='acoes'>

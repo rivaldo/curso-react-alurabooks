@@ -1,0 +1,43 @@
+
+.corpoModalCadastro{
+
+    height: 534.0000610351562px;
+    width: 978px;
+    left: 375px;
+    top: 292px;
+    border-radius: 24px;
+    padding: 64px 48px 56px 48px;
+    box-shadow: 4px 4px 24px -4px #00000026;
+    background: #FFFFFF;
+
+
+    
+}
+
+.corpoModalCadastro form{
+    width: 500px;
+    max-width: 100%;
+}
+
+
+.corpoModalCadastro form .acoes {
+    margin-top: 48px;
+    text-align: center;
+    
+
+}
+
+.rodape{
+    /* Line 5 */
+
+
+    width: 509px;
+    height: 0px;
+
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
