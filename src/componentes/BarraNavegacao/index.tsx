@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import BotaoNavegacao from "../BotaoNavegacao"
 import ModalCadastroUsuario from "../ModalCadastroUsuario"
 import ModalLoginUsuario from '../ModalLoginUsuario'
@@ -10,17 +10,23 @@ import './BarraNavegacao.css'
 const BarraNavegacao = () => {
     const [modalCadastroAberta, setModalCadastroAberta] = useState(false)
     const [modalLoginAberta, setModalLoginAberta ] = useState(false)
+    
+    let navigate = useNavigate();
 
     const token = sessionStorage.getItem('token')
     const [usuarioEstaLogado, setUsuarioEstaLogado] = useState<boolean>(token != null)
-    console.log(usuarioEstaLogado)
+   
 
     const aoEfetuarLogin = () => {
-        setModalLoginAberta(false)
-        setUsuarioEstaLogado(true)
-    }
+        setModalLoginAberta(false);
+        setUsuarioEstaLogado(true);
+    };
 
-
+    const efetuarLogout = () => {
+        setUsuarioEstaLogado(false);
+        sessionStorage.removeItem('token');
+        navigate('/')
+    };
 
     return (<nav className="ab-navbar">
         <h1 className="logo">
@@ -85,6 +91,14 @@ const BarraNavegacao = () => {
                 <>
                     <li>
                         <Link to='/minha-conta/pedidos'> Minha conta</Link>
+                    </li>
+                    <li>
+                        <BotaoNavegacao 
+                            texto="Logout"
+                            textoAltSrc="Icone representando um usuário"
+                            imagemSrc={usuario}
+                            onClick={efetuarLogout}
+                        />
                     </li>
                 </>
             }
